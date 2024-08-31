@@ -66,10 +66,3 @@ class Recipe:
             self.tags
         ]
         return recipe
-
-
-k_beef = Recipe("Korean Beef")
-k_beef.add_ingredient(1, "tsp", "garlic powder")
-k_beef.add_ingredient(0.25, "cup", "soy sauce")
-
-print(k_beef.return_ingredient_list())
