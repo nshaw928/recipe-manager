@@ -2,13 +2,16 @@ class Recipe:
     
     def __init__(self, title):
         self.title = title
+        self.amount = None # TODO need to impliment methods
+        self.time = None # TODO need to impliment methods
+        self.difficulty = None # TODO need to impliment methods
         self.ingredient_quantities = []
         self.ingredient_units = []
         self.ingredient_names = []
         self.steps = []
         self.tags = []
-        self.desciption = None
-        self.text = []
+        self.description = None
+        self.notes = []
     
     # Ingredient Methods
     def add_ingredient(self, quanity, unit, name):
@@ -48,21 +51,25 @@ class Recipe:
     def return_description(self):
         return self.description
     
-    def add_text(self, text):
-        self.text.append(text)
+    def add_notes(self, notes):
+        self.notes.append(notes)
 
-    def return_text(self):
-        text = ""
-        for i in range(0, len(self.text)):
-            text += self.text[i] + "\n"
+    def return_notes(self):
+        notes = ""
+        for i in range(0, len(self.notes)):
+            notes += self.notes[i] + "\n"
+        return notes
     
     def return_recipe(self):
         recipe = [
             self.title,
             self.description,
+            self.amount,
+            self.time,
+            self.difficulty,
             self.return_ingredient_list(),
             self.steps,
-            self.return_text(),
+            self.return_notes(),
             self.tags
         ]
         return recipe
