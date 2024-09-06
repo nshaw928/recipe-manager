@@ -1,32 +1,39 @@
 from recipeClass import Recipe
-from PySide6 import QtCore, QtWidgets, QtGui
-import random
+from PySide6.QtWidgets import QApplication, QWidget, QMainWindow, QVBoxLayout, QHBoxLayout, QTextEdit
 import sys
 
-class MyWidget(QtWidgets.QWidget):
+class AppWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.window_width, self.window_height = 700, 500
+        self.setMinimumSize(self.window_width, self.window_height)
+        self.setWindowTitle('MD Recipe Viewer')
+        self.setStyleSheet('''
+            QWidget {
+                font-size: 17px;
+                }
+        ''')
 
-        self.hello = ["Hallo Welt", "Hei maailma", "Hola Mundo", "Привет мир"]
 
-        self.button = QtWidgets.QPushButton("Click me!")
-        self.text = QtWidgets.QLabel("Hello World", alignment=QtCore.Qt.AlignCenter)
+        self.main_window = QWidget()
+        self.layout = QHBoxLayout(self.main_window)
+        self.setCentralWidget(self.main_window)
 
-        self.layout = QtWidgets.QVBoxLayout(self)
-        self.layout.addWidget(self.text)
-        self.layout.addWidget(self.button)
+        self.init_ui()
 
-        self.button.clicked.connect(self.magic)
+    def init_ui(self):
+        self.md_viewer = QTextEdit(readOnly=True)
+        
+        self.layout.addWidget(self.md_viewer)
 
-    @QtCore.Slot()
-    def magic(self):
-        self.text.setText(random.choice(self.hello))
+    def markdown_update(self, path):
+        md_text = 0 # Read path of md file
+        self.md_viewer.setMarkdown(md_text)
 
 if __name__ == "__main__":
-    app = QtWidgets.QApplication([])
+    app = QApplication(sys.argv)
 
-    widget = MyWidget()
-    widget.resize(800, 600)
-    widget.show()
+    myApp = AppWindow()
+    myApp.show()
 
     sys.exit(app.exec())
