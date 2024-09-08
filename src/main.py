@@ -19,9 +19,12 @@ class AppWindow(QMainWindow):
         self.layout = QHBoxLayout(self.main_window)
         self.setCentralWidget(self.main_window)
 
+        # File paths
+        recipe_folder = '/home/nshaw928/Documents/Obsidian Vault/Recipes'
+
         self.init_ui()
-        self.load_sidebar_items('/home/nshaw928/Documents/Obsidian Vault/Recipes')
-        self.sidebar.itemClicked.connect(self.get_current_selection)
+        self.load_sidebar_items(recipe_folder)
+        self.sidebar.itemClicked.connect(lambda item: self.get_current_selection(item, recipe_folder))
         self.markdown_update('/home/nshaw928/Documents/Obsidian Vault/Recipes/German Curry Sauce.md')
 
     def init_ui(self):
@@ -31,8 +34,8 @@ class AppWindow(QMainWindow):
         self.layout.addWidget(self.sidebar)
         self.layout.addWidget(self.md_viewer)
 
-    def load_sidebar_items(self, recipe_folder_path):
-        files = os.listdir(recipe_folder_path)
+    def load_sidebar_items(self, recipe_folder):
+        files = os.listdir(recipe_folder)
         print(files)
         for file_name in files:
             self.sidebar.addItem(file_name)
@@ -41,8 +44,10 @@ class AppWindow(QMainWindow):
         md_text = open(path, 'r').read()
         self.md_viewer.setMarkdown(md_text)
 
-    def get_current_selection(self, item):
-        print(item.text())
+    def get_current_selection(self, item, recipe_folder):
+        file_name = item.text()
+        self.markdown_update(recipe_folder + '/' + file_name)
+        return file_name # Returns md file name, not full path
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
