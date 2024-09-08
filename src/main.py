@@ -21,6 +21,7 @@ class AppWindow(QMainWindow):
 
         self.init_ui()
         self.load_sidebar_items('/home/nshaw928/Documents/Obsidian Vault/Recipes')
+        self.sidebar.itemClicked.connect(self.get_current_selection)
         self.markdown_update('/home/nshaw928/Documents/Obsidian Vault/Recipes/German Curry Sauce.md')
 
     def init_ui(self):
@@ -39,6 +40,9 @@ class AppWindow(QMainWindow):
     def markdown_update(self, path):
         md_text = open(path, 'r').read()
         self.md_viewer.setMarkdown(md_text)
+
+    def get_current_selection(self, item):
+        print(item.text())
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
