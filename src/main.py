@@ -24,9 +24,9 @@ class AppWindow(QWidget):
         split_layout = QHBoxLayout()
 
         # Top bar content
-        button1 = QPushButton('Button 1')
-
-        top_bar_layout.addWidget(button1)
+        button_toggle = QPushButton('Button 1')
+        button_toggle.clicked.connect(self.toggle_mode)
+        top_bar_layout.addWidget(button_toggle)
 
         # Left Widget
         left_widget = QListWidget()
@@ -50,6 +50,12 @@ class AppWindow(QWidget):
         main_layout.addLayout(split_layout)
         self.setLayout(main_layout)
 
+    def toggle_mode(self):
+        button_add = QPushButton('Add to shopping list')
+        button_email = QPushButton('Send shopping list')
+        self.top_bar_layout.addWidget(button_add)
+        self.top_bar_layout.addWidget(button_email)
+
     def markdown_update(self, path, right_widget):
         md_text = open(path, 'r').read()
         right_widget.setMarkdown(md_text)
@@ -58,6 +64,14 @@ class AppWindow(QWidget):
         file_name = item.text()
         self.markdown_update(recipe_folder + '/' + file_name, right_widget)
         return file_name # Returns md file name as str, not full path
+
+    def start_shopping_list(self):
+        shopping_list_widget = QListWidget()
+        split_layout.addWidget(shopping_list_widget)
+
+    
+    def add_to_shopping_list(self):
+        print()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
