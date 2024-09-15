@@ -19,14 +19,15 @@ class AppWindow(QWidget):
         recipe_folder = '/home/nshaw928/Documents/Obsidian Vault/Recipes'
 
         # Define structure of boxes
-        main_layout = QVBoxLayout(self)
-        top_bar_layout = QHBoxLayout()
-        split_layout = QHBoxLayout()
+        self.main_layout = QVBoxLayout(self)
+        self.top_bar_layout = QHBoxLayout()
+        self.split_layout = QHBoxLayout()
 
         # Top bar content
-        button_toggle = QPushButton('Button 1')
-        button_toggle.clicked.connect(self.toggle_mode)
-        top_bar_layout.addWidget(button_toggle)
+        self.toggle_var = False
+        self.button_toggle = QPushButton('Toggle Mode')
+        self.button_toggle.clicked.connect(self.toggle_mode)
+        self.top_bar_layout.addWidget(self.button_toggle)
 
         # Left Widget
         left_widget = QListWidget()
@@ -42,19 +43,29 @@ class AppWindow(QWidget):
         right_widget = QTextEdit(readOnly=True)
 
         # Add left and right widgets to split layout
-        split_layout.addWidget(left_widget)
-        split_layout.addWidget(right_widget)
+        self.split_layout.addWidget(left_widget)
+        self.split_layout.addWidget(right_widget)
 
         # Add sub-layouts to main layout
-        main_layout.addLayout(top_bar_layout)
-        main_layout.addLayout(split_layout)
-        self.setLayout(main_layout)
+        self.main_layout.addLayout(self.top_bar_layout)
+        self.main_layout.addLayout(self.split_layout)
+        self.setLayout(self.main_layout)
 
     def toggle_mode(self):
-        button_add = QPushButton('Add to shopping list')
-        button_email = QPushButton('Send shopping list')
-        self.top_bar_layout.addWidget(button_add)
-        self.top_bar_layout.addWidget(button_email)
+        if self.toggle_var == False:
+            self.toggle_var = True
+            self.button_add = QPushButton('Add to shopping list')
+            self.button_email = QPushButton('Send shopping list')
+            self.top_bar_layout.addWidget(self.button_add)
+            self.top_bar_layout.addWidget(self.button_email)
+        else:
+            self.toggle_var = False
+            self.top_bar_layout.removeWidget(self.button_add)
+            self.top_bar_layout.removeWidget(self.button_email)
+            self.button_add.deleteLater()
+            self.button_email.deleteLater()
+            self.button_add = None
+            self.button_email = None
 
     def markdown_update(self, path, right_widget):
         md_text = open(path, 'r').read()
