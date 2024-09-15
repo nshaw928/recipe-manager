@@ -57,7 +57,7 @@ class AppWindow(QWidget):
     def get_current_selection(self, item, recipe_folder, right_widget):
         file_name = item.text()
         self.markdown_update(recipe_folder + '/' + file_name, right_widget)
-        return file_name # Returns md file name, not full path
+        return file_name # Returns md file name as str, not full path
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
