@@ -91,6 +91,7 @@ class AppWindow(QWidget):
         self.shopping_list_widget.addItem(self.last_selected_recipe)
 
     def email_shopping_list(self):
+        # TODO Convert list from return_shopping_list() to email
         print()
 
     def return_shopping_list(self):
