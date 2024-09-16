@@ -16,7 +16,7 @@ class AppWindow(QWidget):
         ''')
 
         # File paths
-        recipe_folder = '/home/nshaw928/Documents/Obsidian Vault/Recipes'
+        self.recipe_folder = '/home/nshaw928/Documents/Obsidian Vault/Recipes'
 
         # Define structure of boxes
         self.main_layout = QVBoxLayout(self)
@@ -33,11 +33,11 @@ class AppWindow(QWidget):
         left_widget = QListWidget()
 
         # Left widget content
-        files = os.listdir(recipe_folder)
+        files = os.listdir(self.recipe_folder)
         for file_name in files:
             left_widget.addItem(file_name)
 
-        left_widget.itemClicked.connect(lambda item: self.get_current_selection(item, recipe_folder, right_widget))
+        left_widget.itemClicked.connect(lambda item: self.get_current_selection(item, self.recipe_folder, right_widget))
         
         # Right Widget
         right_widget = QTextEdit(readOnly=True)
@@ -58,7 +58,7 @@ class AppWindow(QWidget):
             self.button_add = QPushButton('Add to shopping list')
             self.button_email = QPushButton('Send shopping list')
             self.button_add.clicked.connect(self.add_to_shopping_list)
-            self.button_email.clicked.connect(self.email_shopping_list)
+            self.button_email.clicked.connect(self.return_shopping_list) # Change to email once function complete
             self.top_bar_layout.addWidget(self.button_add)
             self.top_bar_layout.addWidget(self.button_email)
 
@@ -92,6 +92,31 @@ class AppWindow(QWidget):
 
     def email_shopping_list(self):
         print()
+
+    def return_shopping_list(self):
+        recipes = [self.shopping_list_widget.item(i).text() for i in range(self.shopping_list_widget.count())]
+        ingredient_list = []
+
+        for recipe in recipes:
+            # Open .md file and pull ingredients
+            path = self.recipe_folder + '/' + recipe
+            recipe_text = open(path, 'r').read()
+            ingredients = recipe_text.split('### Ingredients\n')[1].split('\n### Instructions')[0].split('\n')
+            print(ingredients)
+
+            # Save all ingredients in a list of tuples
+            for ingredient in ingredients:
+                quantity = ingredient.split(' ')[1]
+                unit = ingredient.split(' ')[2]
+                item = ' '.join(ingredient.split(' ')[3:])
+                
+                ingredient_list.append((quantity, unit, item))
+            
+        # TODO combine like ingredients
+        # TODO allow for storage of pantry ingredients to not be returned
+
+        return ingredient_list
+            
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
