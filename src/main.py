@@ -106,6 +106,7 @@ class AppWindow(QWidget):
             print(ingredients)
 
             # Save all ingredients in a list of tuples
+            # TODO add list of units to allow for the absense of units in the case of fruit/veg. example: '1 apple'
             for ingredient in ingredients:
                 quantity = ingredient.split(' ')[1]
                 unit = ingredient.split(' ')[2]
