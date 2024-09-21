@@ -3,6 +3,8 @@ from PySide6.QtWidgets import QApplication, QWidget, QMainWindow, QVBoxLayout, Q
 import sys
 import os
 
+# TODO integrate the recipe class for all recipes to be saved in the format, write function
+
 class AppWindow(QWidget):
     def __init__(self):
         super().__init__()
@@ -103,7 +105,6 @@ class AppWindow(QWidget):
             path = self.recipe_folder + '/' + recipe
             recipe_text = open(path, 'r').read()
             ingredients = recipe_text.split('### Ingredients\n')[1].split('\n### Instructions')[0].split('\n')
-            print(ingredients)
 
             # Save all ingredients in a list of tuples
             # TODO add list of units to allow for the absense of units in the case of fruit/veg. example: '1 apple'
@@ -113,6 +114,8 @@ class AppWindow(QWidget):
                 item = ' '.join(ingredient.split(' ')[3:])
                 
                 ingredient_list.append((quantity, unit, item))
+
+            print(ingredient_list)
             
         # TODO combine like ingredients
         # TODO allow for storage of pantry ingredients to not be returned

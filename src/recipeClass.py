@@ -1,5 +1,5 @@
 class Recipe:
-    
+
     def __init__(self, title):
         self.title = title
         self.amount = None # TODO need to impliment methods
